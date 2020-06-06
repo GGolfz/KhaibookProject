@@ -16,8 +16,6 @@
   </v-app>
 </template>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@200;400&display=swap');
-
 .v-application{
   font-family: 'Kanit', sans-serif !important;
 }
