@@ -12,7 +12,7 @@
   </v-app>
 </template>
 
-<scrßipt>
+<script>
 export default {
   layout: 'empty',
   props: {

@@ -3,17 +3,19 @@
     <v-app-bar color="#CEAB7E" app>
         <img src="../assets/icon.png" height="54px"/>
       <v-toolbar-title class="display-1 white--text shoptitle">
-        Khaibook
+        KHAIBOOK
       </v-toolbar-title>
       <v-spacer/>
       <v-app-bar-nav-icon>
       </v-app-bar-nav-icon>
     </v-app-bar>
     <v-content>
+      <nuxt-child>
+      </nuxt-child>
     </v-content>
   </v-app>
 </template>
-<style scoped>
+<style>
 @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@200;400&display=swap');
 
 .v-application{
