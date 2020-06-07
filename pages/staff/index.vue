@@ -34,21 +34,21 @@ export default {
           icon: 'mdi-cart',
           text: 'ตรวจสอบคำสั่งซื้อหนังสือ',
           color: '#49B0A6',
-          link: 'staff/order'
+          link: '/staff/order'
         },
         {
           head: 'จัดการคลังหนังสือ',
           icon: 'mdi-wrench',
           text: 'เพิ่ม ลด หนังสือในคลัง',
           color: '#FFAA42',
-          link: 'staff/manage'
+          link: '/staff/manage'
         },
         {
           head: 'คอมเมนต์จากผู้อ่าน',
           icon: 'mdi-comment',
           text: 'อ่านคอมเมนต์จากผู้สั่งซื้อ',
           color: '#FF457E',
-          link: 'staff/comment'
+          link: '/staff/comment'
         }
       ]
     }
