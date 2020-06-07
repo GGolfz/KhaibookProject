@@ -12,9 +12,14 @@
           hide-details
         />
       </v-card-title>
-      <v-data-table :headers="headers" :items="items" :search="search">
+      <v-data-table
+        v-if="items !== []"
+        :headers="headers"
+        :items="items"
+        :search="search"
+      >
         <template v-slot:item.image="{ item }">
-          <v-img :src="'/uploads/' + item._id + '.jpg'" max-height="120px" />
+          <v-img :src="'/uploads/' + item._id + '.jpg'" />
         </template>
         <template v-slot:item.action="{ item }">
           <v-icon small class="mr-2" @click="editBook(item)">mdi-pencil</v-icon>
@@ -24,7 +29,7 @@
       <BookForm ref="BookForm" @add="submitAdd" @edit="submitEdit" />
       <v-snackbar v-model="snackbar.show" :color="snackbar.type">
         {{ snackbar.text }}
-        <v-btn color="blue" text @click="snackbar.show = false">close</v-btn>
+        <v-btn color="blue" text @click="refresh">close</v-btn>
       </v-snackbar>
       <v-dialog v-model="confirm" max-width="400px">
         <v-card>
@@ -113,7 +118,9 @@ export default {
         formData.append('author', data.author)
         formData.append('price', data.price)
         formData.append('amount', data.amount)
-        formData.append('bookImage', data.image, '')
+        if (data.image) {
+          formData.append('bookImage', data.image, '')
+        }
         const response = await this.$axios.post('/api/book', formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
@@ -126,7 +133,7 @@ export default {
             type: 'Success'
           }
           this.$refs.BookForm.close()
-          this.fetchData()
+          this.refresh()
         }
       } catch (error) {
         this.snackbar = {
@@ -143,7 +150,9 @@ export default {
         formData.append('author', data.author)
         formData.append('price', data.price)
         formData.append('amount', data.amount)
-        formData.append('bookImage', data.image, '')
+        if (data.image) {
+          formData.append('bookImage', data.image, '')
+        }
         const response = await this.$axios.put(
           `/api/book/${this.currentPK}`,
           formData,
@@ -160,7 +169,7 @@ export default {
             type: 'Success'
           }
           this.$refs.BookForm.close()
-          this.fetchData()
+          this.refresh()
         }
       } catch (error) {
         this.snackbar = {
@@ -181,7 +190,7 @@ export default {
             type: 'Success'
           }
           this.$refs.BookForm.close()
-          this.fetchData()
+          this.refresh()
         }
       } catch (error) {
         this.snackbar = {
@@ -190,6 +199,9 @@ export default {
           type: 'error'
         }
       }
+    },
+    refresh() {
+      window.location.reload()
     }
   }
 }

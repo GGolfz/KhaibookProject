@@ -2,14 +2,8 @@
   <v-container>
     <v-row dense>
       <v-col cols="12" class="headline text-center">รายการหนังสือ</v-col>
-      <v-col
-        v-for="(book, index) in books"
-        :key="index"
-        cols="3"
-        style="cursor:pointer"
-        @click="goto(book._id)"
-      >
-        <Book :detail="book" />
+      <v-col v-for="(book, index) in books" :key="index" cols="3">
+        <Book :detail="book" @addtocart="addtocart" />
       </v-col>
     </v-row>
   </v-container>
@@ -33,8 +27,8 @@ export default {
     async fetchData() {
       this.books = await this.$axios.$get('/api/book')
     },
-    goto(val) {
-      this.$router.push(`${val}`)
+    addtocart(val) {
+      this.$emit('addtocart', val)
     }
   }
 }

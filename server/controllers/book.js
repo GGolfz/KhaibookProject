@@ -13,16 +13,20 @@ module.exports = {
   },
   add: async (req, res) => {
     const data = req.body
-    const myImg = req.files.bookImage
-    if (data && myImg) {
+    if (data) {
       try {
         const book = await Books.create(data)
-        const filename = book._id
-        myImg.mv(`./static/uploads/${filename}.jpg`, (err) => {
-          if (err) {
-            return res.status(500).send(err)
+        if (req.files) {
+          const myImg = req.files.bookImage
+          if (myImg) {
+            const filename = book._id
+            myImg.mv(`./static/uploads/${filename}.jpg`, (err) => {
+              if (err) {
+                return res.status(500).send(err)
+              }
+            })
           }
-        })
+        }
         return res.status(201).json(book)
       } catch (error) {
         return res
@@ -49,15 +53,8 @@ module.exports = {
   edit: async (req, res) => {
     const id = req.params.id
     const data = req.body
-    const myImg = req.files.bookImage
-    if (id && data && myImg) {
+    if (id && data) {
       try {
-        const filename = id
-        myImg.mv(`./static/uploads/${filename}.jpg`, (err) => {
-          if (err) {
-            return res.status(500).send(err)
-          }
-        })
         const book = await Books.findByIdAndUpdate(
           id,
           {
@@ -65,6 +62,17 @@ module.exports = {
           },
           { new: true }
         )
+        if (req.files) {
+          const myImg = req.files.bookImage
+          if (myImg) {
+            const filename = id
+            myImg.mv(`./static/uploads/${filename}.jpg`, (err) => {
+              if (err) {
+                return res.status(500).send(err)
+              }
+            })
+          }
+        }
         return res.status(200).json(book)
       } catch (error) {
         return res

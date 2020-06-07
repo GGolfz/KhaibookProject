@@ -6,11 +6,13 @@
       </v-card-title>
       <v-card-text>
         <v-row dense>
-          <v-col v-if="mode === 'edit'" cols="12">
-            <v-img :src="'/uploads/' + book._id + '.jpg'" height="120px" />
+          <v-col v-if="mode === 'edit'" cols="3" />
+          <v-col v-if="mode === 'edit'" cols="6">
+            <v-img :src="'/uploads/' + book._id + '.jpg'" />
           </v-col>
+          <v-col v-if="mode === 'edit'" cols="3" />
           <v-col cols="12">
-            <v-file-input v-model="book.image" label="Image*" required />
+            <v-file-input v-model="book.image" label="Image" />
           </v-col>
           <v-col cols="12">
             <v-text-field v-model="book.name" label="Name*" required />

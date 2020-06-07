@@ -29,6 +29,11 @@ export default {
   async mounted() {
     this.id = this.$route.params.id
     this.book = await this.$axios.$get(`/api/book/${this.id}`)
+  },
+  methods: {
+    addtocart(val) {
+      this.$emit('addtocart', val)
+    }
   }
 }
 </script>
