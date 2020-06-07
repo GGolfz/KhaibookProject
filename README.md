@@ -3,8 +3,11 @@
 > khaibook project
 
 ## Build Setup
-
+Please run mongoDB before serve the nuxt
 ```bash
+# run mongoDB 
+$ npm run mongod
+
 # install dependencies
 $ npm install
 
@@ -17,7 +20,6 @@ $ npm run start
 
 # generate static project
 $ npm run generate
+
 ```
-# run mongoDB 
-$ npm run mongod
 For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
