@@ -1,5 +1,8 @@
 <template>
   <v-row>
+    <v-col cols="12" class="text-center">
+      <v-img :src="'/uploads/' + detail._id + '.jpg'" max-height="120px" />
+    </v-col>
     <v-col cols="12" class="text-center">{{ detail.name }}</v-col>
     <v-col cols="12" class="text-center">ผู้แต่ง : {{ detail.author }}</v-col>
     <v-col cols="12" class="text-center">ราคา : {{ detail.price }} บาท</v-col>

@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-console */
 const express = require('express')
+const fileupload = require('express-fileupload')
 const consola = require('consola')
 const { Nuxt, Builder } = require('nuxt')
 const app = express()
@@ -31,8 +33,19 @@ async function start() {
   }
   // JSON Parser
   app.use(express.json())
-
+  app.use(fileupload())
   // Controller Route
+  app.post('/upload', (req, res, next) => {
+    const myImg = req.files.bookImage
+    const filename = req.body.name
+    myImg.mv(`./uploads/${filename}.jpg`, (err) => {
+      if (err) {
+        return res.status(500).send(err)
+      } else {
+        return res.status(200).json(myImg)
+      }
+    })
+  })
   app.get('/api/book', bookController.get)
   app.post('/api/book', bookController.add)
   app.get('/api/book/:id', bookController.getID)

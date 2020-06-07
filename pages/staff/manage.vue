@@ -13,6 +13,9 @@
         />
       </v-card-title>
       <v-data-table :headers="headers" :items="items" :search="search">
+        <template v-slot:item.image="{ item }">
+          <v-img :src="'/uploads/' + item._id + '.jpg'" max-height="120px" />
+        </template>
         <template v-slot:item.action="{ item }">
           <v-icon small class="mr-2" @click="editBook(item)">mdi-pencil</v-icon>
           <v-icon small @click="deleteBook(item)">mdi-delete</v-icon>
@@ -55,6 +58,11 @@ export default {
       confirm: false,
       currentPK: null,
       headers: [
+        {
+          text: 'รูปภาพ',
+          value: 'image',
+          width: '15%'
+        },
         {
           text: 'ชื่อหนังสือ',
           value: 'name'
@@ -100,7 +108,17 @@ export default {
     },
     async submitAdd(data) {
       try {
-        const response = await this.$axios.post('/api/book', data)
+        const formData = new FormData()
+        formData.append('name', data.name)
+        formData.append('author', data.author)
+        formData.append('price', data.price)
+        formData.append('amount', data.amount)
+        formData.append('bookImage', data.image, '')
+        const response = await this.$axios.post('/api/book', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        })
         if (response) {
           this.snackbar = {
             show: true,
@@ -120,9 +138,20 @@ export default {
     },
     async submitEdit(data) {
       try {
+        const formData = new FormData()
+        formData.append('name', data.name)
+        formData.append('author', data.author)
+        formData.append('price', data.price)
+        formData.append('amount', data.amount)
+        formData.append('bookImage', data.image, '')
         const response = await this.$axios.put(
           `/api/book/${this.currentPK}`,
-          data
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          }
         )
         if (response) {
           this.snackbar = {

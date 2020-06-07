@@ -6,6 +6,12 @@
       </v-card-title>
       <v-card-text>
         <v-row dense>
+          <v-col v-if="mode === 'edit'" cols="12">
+            <v-img :src="'/uploads/' + book._id + '.jpg'" height="120px" />
+          </v-col>
+          <v-col cols="12">
+            <v-file-input v-model="book.image" label="Image*" required />
+          </v-col>
           <v-col cols="12">
             <v-text-field v-model="book.name" label="Name*" required />
           </v-col>
@@ -37,6 +43,7 @@ export default {
       mode: '',
       thmode: '',
       book: {
+        image: null,
         name: '',
         author: '',
         price: '',
@@ -63,6 +70,7 @@ export default {
     },
     clearData() {
       this.book = {
+        image: null,
         name: '',
         author: '',
         price: '',
