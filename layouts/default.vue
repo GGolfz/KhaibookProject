@@ -120,7 +120,7 @@ export default {
   },
   async mounted() {
     if (this.$route.name === null) {
-      this.$router.push(url + '/')
+      this.$router.push('/')
     } else {
       const response = await this.$axios.get(url + '/api/auth')
       if (response.data.uid) {
@@ -136,7 +136,7 @@ export default {
       .catch((err) => {
         // eslint-disable-next-line no-console
         console.log(err)
-        this.$router.push(url + '/')
+        this.$router.push('/')
       })
   },
   methods: {
@@ -189,10 +189,10 @@ export default {
       window.location.reload()
     },
     staff() {
-      this.$router.push(url + '/staff')
+      this.$router.push('/staff')
     },
     home() {
-      this.$router.push(url + '/')
+      this.$router.push('/')
     }
   }
 }

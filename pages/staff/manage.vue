@@ -103,7 +103,7 @@ export default {
       .catch((err) => {
         // eslint-disable-next-line no-console
         console.log(err)
-        this.$router.push(url + '/')
+        this.$router.push('/')
       })
   },
   methods: {
