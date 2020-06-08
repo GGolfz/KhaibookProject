@@ -54,5 +54,11 @@ module.exports = {
     const user = await User.findById(id)
     const val = user.isStaff
     return val
+  },
+  getName: async (req, res) => {
+    const id = req.params.id
+    const user = await User.findById(id)
+    const name = user.firstname + ' ' + user.lastname
+    return res.status(200).json({ name })
   }
 }

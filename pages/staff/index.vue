@@ -1,10 +1,12 @@
 <template>
   <v-row id="row" dense>
+    <v-col cols="2" />
     <v-col v-for="(info, index) in infos" id="col" :key="index" cols="4">
       <nuxt-link :to="info.link">
         <BoxButton :info="info" />
       </nuxt-link>
     </v-col>
+    <v-col cols="2" />
   </v-row>
 </template>
 <style scoped>
@@ -42,13 +44,6 @@ export default {
           text: 'เพิ่ม ลด หนังสือในคลัง',
           color: '#FFAA42',
           link: '/staff/manage'
-        },
-        {
-          head: 'คอมเมนต์จากผู้อ่าน',
-          icon: 'mdi-comment',
-          text: 'อ่านคอมเมนต์จากผู้สั่งซื้อ',
-          color: '#FF457E',
-          link: '/staff/comment'
         }
       ]
     }
