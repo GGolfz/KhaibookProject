@@ -8,7 +8,7 @@ module.exports = {
           if (err) {
             return res.status(500).json({ message: err })
           }
-          if (user) {	  
+          if (user) {
             return res.status(500).json({ message: 'Email has already taken' })
           } else {
             const newUser = new User()

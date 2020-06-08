@@ -56,6 +56,7 @@
 
 <script>
 import ApproveForm from '../../components/ApproveForm'
+const url = require('../config/config').realURL
 export default {
   components: {
     ApproveForm
@@ -98,29 +99,33 @@ export default {
   },
   mounted() {
     this.$axios
-      .$get('/api/checkstaff')
+      .$get(url + '/api/checkstaff')
       .then(() => {
         this.fetchData()
       })
       .catch((err) => {
         // eslint-disable-next-line no-console
         console.log(err)
-        this.$router.push('/')
+        this.$router.push(url + '/')
       })
   },
   methods: {
     async fetchData() {
-      this.orderitems = await this.$axios.$get('/api/requests/order')
-      this.senditems = await this.$axios.$get('/api/requests/send')
+      this.orderitems = await this.$axios.$get(url + '/api/requests/order')
+      this.senditems = await this.$axios.$get(url + '/api/requests/send')
       await this.getName()
     },
     async getName() {
       await this.orderitems.forEach(async (item) => {
-        const name = await this.$axios.$get(`/api/user/name/${item.userID}`)
+        const name = await this.$axios.$get(
+          url + `/api/user/name/${item.userID}`
+        )
         this.orderItem.push({ ...item, firstname: name.name })
       })
       await this.senditems.forEach(async (item) => {
-        const name = await this.$axios.$get(`/api/user/name/${item.userID}`)
+        const name = await this.$axios.$get(
+          url + `/api/user/name/${item.userID}`
+        )
         this.sendItem.push({ ...item, firstname: name.name })
       })
     },
@@ -138,7 +143,7 @@ export default {
       this.currentPK = item._id
       const data = { status: 'จัดส่งแล้ว' }
       const response = await this.$axios.$put(
-        `/api/request/approve/${this.currentPK}`,
+        url + `/api/request/approve/${this.currentPK}`,
         data
       )
       if (response) {
@@ -151,7 +156,7 @@ export default {
       if (data === 'notapprove') send = { status: 'หลักฐานไม่ถูกต้อง' }
       else if (data === 'approve') send = { status: 'รอการจัดส่ง' }
       const response = await this.$axios.$put(
-        `/api/request/approve/${this.currentPK}`,
+        url + `/api/request/approve/${this.currentPK}`,
         send
       )
       if (response) {

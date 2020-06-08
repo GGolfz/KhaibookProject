@@ -11,6 +11,7 @@
 
 <script>
 import Book from '../components/book'
+const url = require('../config/config').realURL
 export default {
   components: {
     Book
@@ -25,7 +26,7 @@ export default {
   },
   methods: {
     async fetchData() {
-      this.books = await this.$axios.$get('/api/book')
+      this.books = await this.$axios.$get(url + '/api/book')
     },
     addtocart(val) {
       this.$emit('addtocart', val)

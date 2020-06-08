@@ -29,7 +29,7 @@ async function start() {
   // Init Nuxt.js
   const nuxt = new Nuxt(config)
 
-  const {host,port} = nuxt.options.server
+  const { port } = nuxt.options.server
   await nuxt.ready()
   // Build only in dev mode
   if (config.dev) {
@@ -62,7 +62,7 @@ async function start() {
       }
       return res.status(500).json({ message: 'Unauthenicated' })
     }
-      return res.status(500).json({ message: 'Unauthenicated' })
+    return res.status(500).json({ message: 'Unauthenicated' })
   })
   app.post('/api/buy', requestController.buy)
   app.get('/api/requests', requestController.getAll)
@@ -95,11 +95,9 @@ async function start() {
   })
   // Give nuxt middleware to express
   app.use(nuxt.render)
-	// app.use(nuxt.render)
-  app.set('port',port)
+  app.set('port', port)
   // Listen the server
- 
-  app.listen(port,'0.0.0.0')
+  app.listen(port, '0.0.0.0')
   consola.ready({
     message: `Server listening on http://localhost:${port}`,
     badge: true

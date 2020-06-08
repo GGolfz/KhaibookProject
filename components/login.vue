@@ -26,6 +26,7 @@
 </template>
 
 <script>
+const url = require('../config/config').realURL
 export default {
   data() {
     return {
@@ -38,7 +39,7 @@ export default {
   methods: {
     login() {
       this.$axios
-        .$post('/login', this.info)
+        .$post(url + '/login', this.info)
         .then((response) => {
           if (response) {
             if (response.message === 'login success') {

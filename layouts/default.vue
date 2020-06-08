@@ -97,6 +97,7 @@
 import OrderList from '../components/OrderList'
 import SignUp from '../components/signup'
 import Login from '../components/login'
+const url = require('../config/config').realURL
 export default {
   components: {
     SignUp,
@@ -119,23 +120,23 @@ export default {
   },
   async mounted() {
     if (this.$route.name === null) {
-      this.$router.push('/')
+      this.$router.push(url + '/')
     } else {
-      const response = await this.$axios.get('http://52.188.207.81/api/auth')
+      const response = await this.$axios.get(url + '/api/auth')
       if (response.data.uid) {
         this.id = response.data.uid
         this.auth = true
       }
     }
     this.$axios
-      .$get('/api/checkstaff')
+      .$get(url + '/api/checkstaff')
       .then(() => {
         this.isStaff = true
       })
       .catch((err) => {
         // eslint-disable-next-line no-console
         console.log(err)
-        this.$router.push('/')
+        this.$router.push(url + '/')
       })
   },
   methods: {
@@ -173,7 +174,7 @@ export default {
         { overallprice: this.overallprice },
         { address: this.address }
       )
-      this.$axios.$post('/api/buy', buyreq).then(() => {
+      this.$axios.$post(url + '/api/buy', buyreq).then(() => {
         window.location.reload()
       })
     },
@@ -184,14 +185,14 @@ export default {
       this.dialog = true
     },
     async logout() {
-      await this.$axios.get('/logout')
+      await this.$axios.get(url + '/logout')
       window.location.reload()
     },
     staff() {
-      this.$router.push('/staff')
+      this.$router.push(url + '/staff')
     },
     home() {
-      this.$router.push('/')
+      this.$router.push(url + '/')
     }
   }
 }

@@ -70,6 +70,7 @@ import EvidenceForm from './EvidenceForm'
 import ShowOrder from './ShowOrder'
 import Order from './OrderWait'
 import OrderFinish from './OrderFinish'
+const url = require('../config/config').realURL
 export default {
   components: {
     ShowOrder,
@@ -92,10 +93,10 @@ export default {
   },
   methods: {
     async fetchData() {
-      this.waitList = await this.$axios.$get('/api/request/waiting')
-      this.orderList = await this.$axios.$get('/api/request/ordering')
-      this.sendingList = await this.$axios.$get('/api/request/sending')
-      this.finishList = await this.$axios.$get('/api/request/finishing')
+      this.waitList = await this.$axios.$get(url + '/api/request/waiting')
+      this.orderList = await this.$axios.$get(url + '/api/request/ordering')
+      this.sendingList = await this.$axios.$get(url + '/api/request/sending')
+      this.finishList = await this.$axios.$get(url + '/api/request/finishing')
     },
     sendevi(req) {
       this.currentPK = req._id
@@ -104,7 +105,7 @@ export default {
     async getted(req) {
       this.currentPK = req._id
       const response = await this.$axios.$put(
-        `/api/request/recieve/${this.currentPK}`
+        url + `/api/request/recieve/${this.currentPK}`
       )
       if (response) {
         this.refresh()
@@ -117,7 +118,7 @@ export default {
         formData.append('evidence', data.image, '')
       }
       const response = await this.$axios.put(
-        `/api/request/update/${this.currentPK}`,
+        url + `/api/request/update/${this.currentPK}`,
         formData,
         {
           headers: {

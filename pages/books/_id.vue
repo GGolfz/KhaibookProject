@@ -6,6 +6,7 @@
 
 <script>
 import Book from '../../components/bookbig'
+const url = require('../config/config').realURL
 export default {
   components: {
     Book
@@ -28,7 +29,7 @@ export default {
   },
   async mounted() {
     this.id = this.$route.params.id
-    this.book = await this.$axios.$get(`/api/book/${this.id}`)
+    this.book = await this.$axios.$get(url + `/api/book/${this.id}`)
   },
   methods: {
     addtocart(val) {

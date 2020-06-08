@@ -24,6 +24,7 @@
 </style>
 <script>
 import BoxButton from '../../components/boxbutton'
+const url = require('../config/config').realURL
 export default {
   components: {
     BoxButton
@@ -50,12 +51,12 @@ export default {
   },
   mounted() {
     this.$axios
-      .$get('/api/checkstaff')
+      .$get(url + '/api/checkstaff')
       .then(() => {})
       .catch((err) => {
         // eslint-disable-next-line no-console
         console.log(err)
-        this.$router.push('/')
+        this.$router.push(url + '/')
       })
   }
 }

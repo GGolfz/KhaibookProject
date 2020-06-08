@@ -48,6 +48,7 @@
 
 <script>
 import BookForm from '../../components/BookForm'
+const url = require('../config/config').realURL
 export default {
   components: {
     BookForm
@@ -95,19 +96,19 @@ export default {
   },
   mounted() {
     this.$axios
-      .$get('/api/checkstaff')
+      .$get(url + '/api/checkstaff')
       .then(() => {
         this.fetchData()
       })
       .catch((err) => {
         // eslint-disable-next-line no-console
         console.log(err)
-        this.$router.push('/')
+        this.$router.push(url + '/')
       })
   },
   methods: {
     async fetchData() {
-      this.items = await this.$axios.$get('/api/book')
+      this.items = await this.$axios.$get(url + '/api/book')
     },
     addBook() {
       this.$refs.BookForm.open('add')
@@ -130,7 +131,7 @@ export default {
         if (data.image) {
           formData.append('bookImage', data.image, '')
         }
-        const response = await this.$axios.post('/api/book', formData, {
+        const response = await this.$axios.post(url + '/api/book', formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
@@ -163,7 +164,7 @@ export default {
           formData.append('bookImage', data.image, '')
         }
         const response = await this.$axios.put(
-          `/api/book/${this.currentPK}`,
+          url + `/api/book/${this.currentPK}`,
           formData,
           {
             headers: {
@@ -191,7 +192,9 @@ export default {
     async submitDelete() {
       try {
         this.confirm = false
-        const response = await this.$axios.delete(`/api/book/${this.currentPK}`)
+        const response = await this.$axios.delete(
+          url + `/api/book/${this.currentPK}`
+        )
         if (response) {
           this.snackbar = {
             show: true,

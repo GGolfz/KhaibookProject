@@ -40,6 +40,7 @@
 </template>
 
 <script>
+const url = require('../config/config').realURL
 export default {
   data() {
     return {
@@ -54,7 +55,7 @@ export default {
   methods: {
     signup() {
       this.$axios
-        .$post('/signup', this.info)
+        .$post(url + '/signup', this.info)
         .then((response) => {
           if (response) {
             if (response.message === 'register success') {

@@ -31,6 +31,7 @@
 
 <script>
 import BuyForm from './buyform'
+const url = require('../config/config').realURL
 export default {
   components: {
     BuyForm
@@ -55,7 +56,7 @@ export default {
   },
   methods: {
     goto(val) {
-      this.$router.push(`/books/${val}`)
+      this.$router.push(url + `/books/${val}`)
     },
     addtocart(val) {
       this.dialog = false
