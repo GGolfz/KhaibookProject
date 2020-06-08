@@ -16,7 +16,7 @@ module.exports = {
             newUser.local.password = newUser.generateHash(data.password)
             newUser.firstname = data.firstname
             newUser.lastname = data.lastname
-            newUser.isStaff = true
+            newUser.isStaff = false
             newUser.save((err) => {
               if (err) {
                 return res.status(500).json({ message: err })
