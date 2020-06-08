@@ -58,7 +58,7 @@ async function start() {
     if (req.session) {
       if (req.session._id) {
         const uid = req.session._id
-        res.status(200).json({ uid })
+        return res.status(200).json({ uid })
       }
       return res.status(500).json({ message: 'Unauthenicated' })
     }
