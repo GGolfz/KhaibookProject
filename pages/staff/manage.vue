@@ -93,8 +93,17 @@ export default {
       items: []
     }
   },
-  async mounted() {
-    await this.fetchData()
+  mounted() {
+    this.$axios
+      .$get('/api/checkstaff')
+      .then(() => {
+        this.fetchData()
+      })
+      .catch((err) => {
+        // eslint-disable-next-line no-console
+        console.log(err)
+        this.$router.push('/')
+      })
   },
   methods: {
     async fetchData() {

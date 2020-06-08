@@ -52,13 +52,19 @@ export default {
     }
   },
   methods: {
-    async signup() {
-      const response = await this.$axios.$post('/signup', this.info)
-      if (response) {
-        if (response.message === 'register success') {
-          window.location.reload()
-        }
-      }
+    signup() {
+      this.$axios
+        .$post('/signup', this.info)
+        .then((response) => {
+          if (response) {
+            if (response.message === 'register success') {
+              window.location.reload()
+            }
+          }
+        })
+        .catch(() => {
+          alert('ERROR: This email is already taken')
+        })
     }
   }
 }

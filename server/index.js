@@ -80,6 +80,7 @@ async function start() {
   app.get('/api/book/:id', bookController.getID)
   app.put('/api/book/:id', bookController.edit)
   app.delete('/api/book/:id', bookController.delete)
+  app.get('/api/checkstaff', userController.isStaff)
   app.post('/signup', userController.signup)
   app.post('/login', userController.login)
   app.get('/logout', (req, res) => {

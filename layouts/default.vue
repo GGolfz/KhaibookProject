@@ -1,21 +1,31 @@
 <template>
   <v-app>
     <v-app-bar color="#CEAB7E" app>
-      <img src="../assets/icon.png" height="54px" />
-      <v-toolbar-title class="display-1 white--text shoptitle">
+      <img
+        src="../assets/icon.png"
+        height="54px"
+        style="cursor:pointer"
+        @click="home"
+      />
+      <v-toolbar-title
+        class="display-1 white--text shoptitle"
+        style="cursor:pointer"
+        @click="home"
+      >
         KHAIBOOK
       </v-toolbar-title>
       <v-spacer />
-      <v-btn v-if="auth" @click="openorder">MY ORDERS</v-btn>
-      <v-spacer />
-      <v-icon style="cursor:pointer" @click="cart = true">mdi-cart</v-icon>
-      <v-spacer />
+      <v-btn v-if="auth && isStaff" class="mr-12" @click="staff">STAFF</v-btn>
+      <v-btn v-if="auth" class="mr-12" @click="openorder">MY ORDERS</v-btn>
+      <v-btn icon style="cursor:pointer" class="mr-12" @click="cart = true">
+        <v-icon>mdi-cart</v-icon>
+      </v-btn>
       <v-btn v-if="!auth" @click="login">login</v-btn>
       <v-btn v-if="auth" @click="logout">logout</v-btn>
     </v-app-bar>
     <v-content>
       <v-dialog v-model="dialog" width="800px">
-        <v-card>
+        <v-card class="px-6 py-3">
           <v-row>
             <v-col class="text-center" cols="6" @click="state = 'login'">
               Login
@@ -23,8 +33,8 @@
             <v-col class="text-center" cols="6" @click="state = 'register'">
               Register
             </v-col>
-            <SignUp v-if="state === 'register'" @auth="auth1" />
-            <Login v-if="state === 'login'" @auth="auth1" />
+            <SignUp v-if="state === 'register'" />
+            <Login v-if="state === 'login'" />
           </v-row>
         </v-card>
       </v-dialog>
@@ -103,15 +113,30 @@ export default {
       state: 'login',
       id: '',
       address: '',
-      order: false
+      order: false,
+      isStaff: false
     }
   },
   async mounted() {
-    const response = await this.$axios.get('/api/auth')
-    if (response.data.uid) {
-      this.id = response.data.uid
-      this.auth = true
+    if (this.$route.name === null) {
+      this.$router.push('/')
+    } else {
+      const response = await this.$axios.get('/api/auth')
+      if (response.data.uid) {
+        this.id = response.data.uid
+        this.auth = true
+      }
     }
+    this.$axios
+      .$get('/api/checkstaff')
+      .then(() => {
+        this.isStaff = true
+      })
+      .catch((err) => {
+        // eslint-disable-next-line no-console
+        console.log(err)
+        this.$router.push('/')
+      })
   },
   methods: {
     addtocart(val) {
@@ -162,9 +187,11 @@ export default {
       await this.$axios.get('/logout')
       window.location.reload()
     },
-    auth1() {
-      this.dialog = false
-      window.location.reload()
+    staff() {
+      this.$router.push('/staff')
+    },
+    home() {
+      this.$router.push('/')
     }
   }
 }

@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Book from '../../components/book'
+import Book from '../../components/bookbig'
 export default {
   components: {
     Book

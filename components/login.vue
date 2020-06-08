@@ -36,13 +36,19 @@ export default {
     }
   },
   methods: {
-    async login() {
-      const response = await this.$axios.$post('/login', this.info)
-      if (response) {
-        if (response.message === 'login success') {
-          window.location.reload()
-        }
-      }
+    login() {
+      this.$axios
+        .$post('/login', this.info)
+        .then((response) => {
+          if (response) {
+            if (response.message === 'login success') {
+              window.location.reload()
+            }
+          }
+        })
+        .catch(() => {
+          alert('ERROR: Wrong Password || Invalid Username')
+        })
     }
   }
 }

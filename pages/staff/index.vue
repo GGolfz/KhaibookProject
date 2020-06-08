@@ -47,6 +47,16 @@ export default {
         }
       ]
     }
+  },
+  mounted() {
+    this.$axios
+      .$get('/api/checkstaff')
+      .then(() => {})
+      .catch((err) => {
+        // eslint-disable-next-line no-console
+        console.log(err)
+        this.$router.push('/')
+      })
   }
 }
 </script>

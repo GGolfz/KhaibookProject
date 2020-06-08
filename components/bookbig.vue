@@ -1,14 +1,14 @@
 <template>
   <v-row>
-    <v-col cols="3"></v-col>
-    <v-col cols="6" class="text-center">
+    <v-col cols="5"></v-col>
+    <v-col cols="2" class="text-center">
       <v-img
         :src="'/uploads/' + detail._id + '.jpg'"
         style="cursor:pointer"
         @click="goto(detail._id)"
       />
     </v-col>
-    <v-col cols="3"></v-col>
+    <v-col cols="5"></v-col>
     <v-col cols="12" class="text-center">{{ detail.name }}</v-col>
     <v-col cols="12" class="text-center">ผู้แต่ง : {{ detail.author }}</v-col>
     <v-col cols="12" class="text-center">ราคา : {{ detail.price }} บาท</v-col>

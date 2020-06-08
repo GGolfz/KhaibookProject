@@ -55,6 +55,20 @@ module.exports = {
     const val = user.isStaff
     return val
   },
+  isStaff: async (req, res) => {
+    if (req.session) {
+      if (req.session._id) {
+        const id = req.session._id
+        const user = await User.findById(id)
+        if (user.isStaff) {
+          return res.status(200).json({ message: 'True' })
+        }
+        return res.status(500).json({ message: 'No Permission' })
+      }
+      return res.status(500).json({ message: 'No Permission' })
+    }
+    return res.status(500).json({ message: 'No Permission' })
+  },
   getName: async (req, res) => {
     const id = req.params.id
     const user = await User.findById(id)
