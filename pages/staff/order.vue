@@ -56,7 +56,7 @@
 
 <script>
 import ApproveForm from '../../components/ApproveForm'
-const url = require('../config/config').realURL
+const url = require('../../config/config').realURL
 export default {
   components: {
     ApproveForm

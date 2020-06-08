@@ -48,7 +48,7 @@
 
 <script>
 import BookForm from '../../components/BookForm'
-const url = require('../config/config').realURL
+const url = require('../../config/config').realURL
 export default {
   components: {
     BookForm

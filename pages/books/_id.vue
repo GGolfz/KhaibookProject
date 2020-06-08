@@ -6,7 +6,7 @@
 
 <script>
 import Book from '../../components/bookbig'
-const url = require('../config/config').realURL
+const url = require('../../config/config').realURL
 export default {
   components: {
     Book

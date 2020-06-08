@@ -3,7 +3,7 @@
 </template>
 
 <script>
-const url = require('../config/config').realURL
+const url = require('../../config/config').realURL
 export default {
   mounted() {
     this.$router.push(url + '/')

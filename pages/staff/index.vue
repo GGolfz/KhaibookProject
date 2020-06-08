@@ -24,7 +24,7 @@
 </style>
 <script>
 import BoxButton from '../../components/boxbutton'
-const url = require('../config/config').realURL
+const url = require('../../config/config').realURL
 export default {
   components: {
     BoxButton
