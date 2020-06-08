@@ -6,10 +6,16 @@ const consola = require('consola')
 const { Nuxt, Builder } = require('nuxt')
 const app = express()
 const mongoose = require('mongoose')
-const webconfig = require('../config')
+const passport = require('passport')
+const flash = require('connect-flash')
+const session = require('express-session')
+const FileStore = require('session-file-store')(session)
+const webconfig = require('../config/config')
 const config = require('../nuxt.config.js')
 const url = webconfig.mongoURL
 const bookController = require('./controllers/book')
+const userController = require('./controllers/user')
+const requestController = require('./controllers/request')
 const connect = mongoose.connect(url)
 connect
   .then(() => {
@@ -31,15 +37,51 @@ async function start() {
     const builder = new Builder(nuxt)
     await builder.build()
   }
+  app.use(
+    session({
+      name: 'session-id',
+      secret: 'thisisgolfsecret',
+      saveUninitialized: false,
+      resave: false,
+      store: new FileStore(),
+      maxAge: 3600
+    })
+  )
   // JSON Parser
   app.use(express.json())
   app.use(fileupload())
+  require('../config/passport')(passport)
+  app.use(passport.initialize())
+  app.use(passport.session())
+  app.use(flash())
   // Controller Route
+  app.get('/api/auth', (req, res) => {
+    if (req.session) {
+      if (req.session._id) {
+        const uid = req.session._id
+        res.json({ uid })
+      }
+    }
+  })
+  app.post('/api/buy', requestController.buy)
+  app.get('/api/requests', requestController.getAll)
+  app.get('/api/requests/:id', requestController.getID)
   app.get('/api/book', bookController.get)
   app.post('/api/book', bookController.add)
   app.get('/api/book/:id', bookController.getID)
   app.put('/api/book/:id', bookController.edit)
   app.delete('/api/book/:id', bookController.delete)
+  app.post('/signup', userController.signup)
+  app.post('/login', userController.login)
+  app.get('/logout', (req, res) => {
+    if (req.session) {
+      res.clearCookie('session-id')
+      req.session.destroy()
+      res.status(200).redirect('/')
+    } else {
+      res.status(403).json({ message: 'You are not logged in!' })
+    }
+  })
   // Give nuxt middleware to express
   app.use(nuxt.render)
 

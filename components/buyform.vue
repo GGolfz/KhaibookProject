@@ -1,8 +1,8 @@
 <template>
   <v-container>
     <v-row dense>
-      <v-col cols="6">ชื่อหนังสือ {{ detail.name }}</v-col>
-      <v-col cols="6" class="text-right">ราคา {{ detail.price }} บาท</v-col>
+      <v-col cols="8">ชื่อหนังสือ {{ detail.name }}</v-col>
+      <v-col cols="4" class="text-right">ราคา {{ detail.price }} บาท</v-col>
       <v-col cols="6">
         <v-row>
           <v-col cols="3" style="align-self:center">

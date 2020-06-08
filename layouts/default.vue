@@ -2,13 +2,23 @@
   <v-app>
     <v-app-bar color="#CEAB7E" app>
       <img src="../assets/icon.png" height="54px" />
-      <v-toolbar-title class="display-1 white--text shoptitle">
-        KHAIBOOK
-      </v-toolbar-title>
+      <v-toolbar-title class="display-1 white--text shoptitle">KHAIBOOK</v-toolbar-title>
       <v-spacer />
       <v-icon style="cursor:pointer" @click="cart = true">mdi-cart</v-icon>
+      <v-btn @click="login" v-if="!auth">login</v-btn>
+      <v-btn @click="logout" v-if="auth">logout</v-btn>
     </v-app-bar>
     <v-content>
+      <v-dialog v-model="dialog" width="800px">
+        <v-card>
+          <v-row>
+            <v-col class="text-center" cols="6" @click="state = 'login'">Login</v-col>
+            <v-col class="text-center" cols="6" @click="state = 'register'">Register</v-col>
+            <SignUp v-if="state === 'register'" @auth="auth1" />
+            <Login v-if="state === 'login'" @auth="auth1" />
+          </v-row>
+        </v-card>
+      </v-dialog>
       <nuxt-child @addtocart="addtocart" />
       <v-dialog v-model="cart" width="450px">
         <v-card style="padding:3%">
@@ -23,15 +33,9 @@
             </v-col>
             <v-col v-for="(it, index) in item" :key="index" cols="12">
               <v-row>
-                <v-col cols="3" style="align-self:center">
-                  {{ it.name }}
-                </v-col>
-                <v-col cols="3" style="align-self:center">
-                  {{ it.buyamount }} เล่ม
-                </v-col>
-                <v-col cols="3" style="align-self:center">
-                  {{ it.price * it.buyamount }} บาท
-                </v-col>
+                <v-col cols="3" style="align-self:center">{{ it.name }}</v-col>
+                <v-col cols="3" style="align-self:center">{{ it.buyamount }} เล่ม</v-col>
+                <v-col cols="3" style="align-self:center">{{ it.price * it.buyamount }} บาท</v-col>
                 <v-col cols="3">
                   <v-btn icon @click="del(it)">
                     <v-icon>mdi-delete</v-icon>
@@ -39,11 +43,9 @@
                 </v-col>
               </v-row>
             </v-col>
-            <v-col cols="6" style="align-self:center">
-              รวมทั้งสิ้น {{ overallprice }} บาท
-            </v-col>
+            <v-col cols="6" style="align-self:center">รวมทั้งสิ้น {{ overallprice }} บาท</v-col>
             <v-col cols="6" class="text-right">
-              <v-btn :disabled="item === []">ยืนยันรายการ</v-btn>
+              <v-btn :disabled="item === []" @click="buy">ยืนยันรายการ</v-btn>
             </v-col>
           </v-row>
         </v-card>
@@ -60,12 +62,30 @@
 }
 </style>
 <script>
+import SignUp from '../components/signup'
+import Login from '../components/login'
 export default {
+  components: {
+    SignUp,
+    Login
+  },
   data() {
     return {
       cart: false,
       item: [],
-      overallprice: 0
+      overallprice: 0,
+      auth: false,
+      dialog: false,
+      state: 'login',
+      id: '',
+      address: ''
+    }
+  },
+  async mounted() {
+    const response = await this.$axios.get('/api/auth')
+    if (response.data.uid) {
+      this.id = response.data.uid
+      this.auth = true
     }
   },
   methods: {
@@ -95,6 +115,28 @@ export default {
       this.item.forEach((it) => {
         this.overallprice += it.price * it.buyamount
       })
+    },
+    buy() {
+      const buyreq = Object.assign(
+        { uid: this.id },
+        { item: this.item },
+        { overallprice: this.overallprice },
+        { address: this.address }
+      )
+      this.$axios.$post('/api/buy', buyreq).then(() => {
+        window.location.reload()
+      })
+    },
+    login() {
+      this.dialog = true
+    },
+    async logout() {
+      await this.$axios.get('/logout')
+      window.location.reload()
+    },
+    auth1() {
+      this.dialog = false
+      window.location.reload()
     }
   }
 }
