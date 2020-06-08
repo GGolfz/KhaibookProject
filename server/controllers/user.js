@@ -8,7 +8,7 @@ module.exports = {
           if (err) {
             return res.status(500).json({ message: err })
           }
-          if (user) {
+          if (user) {	  
             return res.status(500).json({ message: 'Email has already taken' })
           } else {
             const newUser = new User()
@@ -16,7 +16,7 @@ module.exports = {
             newUser.local.password = newUser.generateHash(data.password)
             newUser.firstname = data.firstname
             newUser.lastname = data.lastname
-            newUser.isStaff = false
+            newUser.isStaff = true
             newUser.save((err) => {
               if (err) {
                 return res.status(500).json({ message: err })

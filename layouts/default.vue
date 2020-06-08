@@ -121,7 +121,7 @@ export default {
     if (this.$route.name === null) {
       this.$router.push('/')
     } else {
-      const response = await this.$axios.get('/api/auth')
+      const response = await this.$axios.get('http://52.188.207.81/api/auth')
       if (response.data.uid) {
         this.id = response.data.uid
         this.auth = true
