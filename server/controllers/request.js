@@ -36,6 +36,7 @@ module.exports = {
           .json({ message: 'Cannot register request to database' })
       }
     }
+    return res.status(500).json({ message: 'Please Login before buy book' })
   },
   recieve: async (req, res) => {
     const id = req.params.id
@@ -71,6 +72,18 @@ module.exports = {
               },
               { new: true }
             )
+            if (data.stutus === 'หลักฐานไม่ถูกต้อง') {
+              data.item.forEach(async (item) => {
+                const book = await Book.findById(item.bookID)
+                book.amount = book.amount + item.buyamount
+                book.save((err) => {
+                  if (err) {
+                    return res.status(500).json({ message: err })
+                  }
+                  return res.status(201).json(request)
+                })
+              })
+            }
             return res.status(201).json(request)
           } catch (error) {
             return res
