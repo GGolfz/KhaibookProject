@@ -155,12 +155,10 @@ export default {
       let send = ''
       if (data === 'notapprove') send = { status: 'หลักฐานไม่ถูกต้อง' }
       else if (data === 'approve') send = { status: 'รอการจัดส่ง' }
-      console.log(send)
       const response = await this.$axios.$put(
         url + `/api/request/approve/${this.currentPK}`,
         send
       )
-      
       if (response) {
         this.refresh()
         this.fetchData()
