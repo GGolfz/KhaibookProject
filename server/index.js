@@ -2,6 +2,7 @@
 /* eslint-disable no-console */
 const express = require('express')
 const fileupload = require('express-fileupload')
+const cors = require('cors')
 const consola = require('consola')
 const { Nuxt, Builder } = require('nuxt')
 const app = express()
@@ -47,6 +48,7 @@ async function start() {
     })
   )
   // JSON Parser
+  app.use(cors())
   app.use(express.json())
   app.use(fileupload())
   require('../config/passport')(passport)
