@@ -28,8 +28,8 @@ module.exports = {
           if (err) {
             return res.status(500).json({ message: err })
           }
-          return res.status(200).json({ message: 'success' })
         })
+        return res.status(200).json({ message: 'success' })
       } catch (error) {
         return res
           .status(500)
@@ -72,16 +72,11 @@ module.exports = {
               },
               { new: true }
             )
-            if (data.stutus === 'หลักฐานไม่ถูกต้อง') {
-              data.item.forEach(async (item) => {
-                const book = await Book.findById(item.bookID)
+            if (data.status === 'หลักฐานไม่ถูกต้อง') {
+              Array.from(request.item).forEach(async (item) => {
+                const book = await Book.findById(item._id)
                 book.amount = book.amount + item.buyamount
-                book.save((err) => {
-                  if (err) {
-                    return res.status(500).json({ message: err })
-                  }
-                  return res.status(201).json(request)
-                })
+                book.save()
               })
             }
             return res.status(201).json(request)
