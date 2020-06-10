@@ -16,7 +16,7 @@
       </v-col>
       <v-col v-for="(book, index) in listbooks" :key="index" cols="12">
         <Page
-          v-if="currentpage === index+1"
+          v-if="currentpage === index + 1"
           :books="book"
           @addtocart="addtocart"
         />
