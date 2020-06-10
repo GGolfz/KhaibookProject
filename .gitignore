@@ -36,6 +36,10 @@ build/Release
 
 # Database directories
 data/
+
+# Session directories
+sessions/
+
 # Dependency directories
 node_modules/
 jspm_packages/
