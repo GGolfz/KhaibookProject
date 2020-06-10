@@ -7,6 +7,7 @@
           <span
             v-for="index in pages"
             :key="index"
+            class="mr-2"
             @click="currentpage = index"
           >
             {{ index }}
@@ -15,7 +16,7 @@
       </v-col>
       <v-col v-for="(book, index) in listbooks" :key="index" cols="12">
         <Page
-          v-if="currentpage === index"
+          v-if="currentpage === index+1"
           :books="book"
           @addtocart="addtocart"
         />
@@ -48,8 +49,9 @@ export default {
       await this.dividebook()
     },
     dividebook() {
-      for (let i = 0; i <= this.books.length; i += 8) {
-        this.listbooks.push([...this.books.splice(i, i + 8)])
+      const length = this.books.length
+      for (let i = 0; i <= length; i += 8) {
+        this.listbooks.push([...this.books.splice(0, 8)])
         this.pages += 1
       }
     },
